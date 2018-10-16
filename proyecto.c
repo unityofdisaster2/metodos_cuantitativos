@@ -82,48 +82,69 @@ int main(void)
     printf("xmin %.2f\n",xmin);
     printf("ymax %.2f\n",ymax);
     printf("ymin %.2f\n",ymin);
+    printf("-----------\n",xmax);
 
     float x1[5][1], y1[5][1], res1[5][1];
     int k;
+    unsigned char valido;
     for ( j=0 ; j<3 ; j++){
+        valido=0;
         scanf( "%f %f",&x1[j][i],&y1[j][i] );
         for(k=0 ; k<restricciones ; k++){       //CHECAR QUE HAGA TODAS LAS CONDICIONES
             if( signo[k][i]==1 ){
-                res1[j][i]=x1[j][i]+y1[j][i];
-                if(condicion[k][i]==1){
-                    if(res1[j][i]>res[k][i]){
-                        printf("VALIDO1\n");
+                res1[j][i] = x[k][i]*x1[j][i] + y[k][i]*y1[j][i];
+                if(res1[j][i]>=0){
+                    if(condicion[k][i]==1){
+                        if(res1[j][i]>=res[k][i]){
+                            printf("%c R%d",2,k);
+                            valido++;
+                        }
+                        else
+                            printf("X R%d",k);
                     }
-                    else
-                        printf("INVALIDO2 pedir nuevo\n");
-                }
-                else{
-                    if(res1[j][i]>res[k][i]){
-                        printf("INVALIDO3 pedir nuevo\n");
+                    else{
+                        if(res1[j][i]<=res[k][i]){
+                            printf("%c R%d",2,k);
+                            valido++;
+                        }
+                        else
+                            printf("X R%d",k);
                     }
-                    else
-                        printf("VALIDO4\n");
                 }
+                else
+                    printf("X R%d",k);
             }
             else{
-                res1[j][i]=x1[j][i]-y1[j][i];
-                if(condicion[k][i]==1){
-                    if(res1[j][i]>res[k][i]){
-                        printf("VALIDO5\n");
+                res1[j][i] = x[k][i]*x1[j][i] - y[k][i]*y1[j][i];
+                if(res1[j][i]>=0){
+                    if(condicion[k][i]==1){
+                        if(res1[j][i]>=res[k][i]){
+                            printf("%c R%d",2,k);
+                            valido++;
+                        }
+                        else
+                            printf("X R%d",k);
                     }
-                    else
-                        printf("INVALIDO6 pedir nuevo\n");
-                }
-                else{
-                    if(res1[j][i]>res[k][i]){
-                        printf("INVALIDO7 pedir nuevo\n");
+                    else{
+                        if(res1[j][i]<=res[k][i]){
+                            printf("%c R%d",2,k);
+                            valido++;
+                        }
+                        else
+                            printf("X R%d",k);
                     }
-                    else
-                        printf("VALIDO8\n");
                 }
+                else
+                    printf("X R%d",k);
             }
+            printf("\t%.2f\n",res1[j][i]);
         }
-        printf("\t%.2f\n",res1[j][i]);
+        if( valido == restricciones){
+            printf("\t\t%.2f & %.2f es VALIDO\n",x1[j][i],y1[j][i]);
+        }
+        else{
+            printf("\t\t%.2f & %.2f es INVALIDO\n",x1[j][i],y1[j][i]);
+        }
     }
     return 0;
 }
